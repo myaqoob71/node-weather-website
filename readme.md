@@ -65,16 +65,15 @@ origin
 
 - Deploy code to heroku -> git push heroku main (Used for heroku to see latest commits has been pushed)
 
+- To update code and deploy to GitHub and Heroku
+1. git add <filenames>...
+2. git commit -m "..."
+3. git push
+4. git push heroku main
 
-
-
-
-
-
-
-
-
-
+- We removed the "nodemon" global dependency because when users try running the script it might fail as they didn't notice nodemon needs to be installed globally.
+- So, making it as a devDependency will be useful only for development purpose and not for production.
+- Now, we cannot directly run command -> nodemon src/app.js -e js,hbs (as its no more a globally installed package, but we can run it after adding as a script in package.json -> npm run dev)
 
 
 
