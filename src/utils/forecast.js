@@ -12,7 +12,7 @@ const forecast = (latitude, longitude, callback) => {
         } else {
             // commenting below code as we have destructed "response" 
             // callback(undefined, response.body.current.weather_descriptions[0] + '. It is currently ' + response.body.current.temperature + ' degress out. There is a ' + response.body.current.precip + '% chance of rain.')
-            callback(undefined, body.current.weather_descriptions[0] + '. It is currently ' + body.current.temperature + ' degress out. There is a ' + body.current.precip + '% chance of rain.')
+            callback(undefined, body.current.weather_descriptions[0] + '. It is currently ' + body.current.temperature + ' degress out. There is a ' + body.current.precip + '% chance of rain. And the UV Index is ' + body.current.uv_index)
         }
     })
 }
