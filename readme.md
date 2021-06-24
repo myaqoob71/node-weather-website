@@ -25,3 +25,70 @@ git add .
 git rm --cached <file>...
 - Commit all files
 git commit -m "..."
+
+- Set up SSH(Secure Shell) for GitHub
+// show all hidden files, directories & ssh file if any (id_rsa, id_rsa.pub) 
+ls -a -l ~/.ssh
+
+- Generate ssh key
+ssh-keygen -t rsa -b 4096 -C "myaqoob71@gmail.com"
+where t -> type
+b -> bytes (common 4096 bytes)
+C -> comments (like mail address)
+
+- Start the SSH agent
+eval "$(ssh-agent -s)"
+//Output: Agent pid <number>
+
+- Register SSH
+ssh-add -K ~/.ssh/id_rsa
+            OR
+ssh-add -K /var/root/.ssh/id_rsa
+where K to be added only for Mac
+
+- Create a repository in GitHub
+- Push existing repository using 
+git remote add origin https://github.com/myaqoob71/node-weather-website.git  -> Creates a remote connection 
+- Before running the below 2 commands we need to create a connection with SSH through GitHub 
+- Goto GitHub profile -> Settings -> SSH and GPG keys -> Add New SSH key -> In VSCode terminal -> cat /var/root/.ssh/id_rsa.pub (OR) 
+cat ~/.ssh/id_rsa.pub -> We get a long encrypted key -> Copy and paste it in GitHub
+-Tests your GitHub connection with servers
+ssh -T git@github.com
+git branch -M main
+git push -u origin main  -> pushing code to upstream "main"
+
+- Setup SSH for Heroku
+heroku keys:add
+//Looks through the ssh directory and asks which ssh keys to upload
+- Create a heroku application
+heroku create <application-name>
+//This gives 2 details
+1. Tells about the successful creation of heroku application
+2. Provides 2 URL's -> (i): Live URL for the app (ii): git repository URL
+- For live app URL to run there are 3 changes to do:
+1. We need to create a script in package.json to start running the app.js
+"scripts": {
+    "start": "node src/app.js"
+  }
+2. In app.js, we need to make changes to listen() as heroku uses its own port to run application
+const port = process.env.PORT || 3000 -> heroku uses process.env.PORT and if we are running the app locally it uses 3000 port
+app.listen(port, () => {
+    console.log('Server is up on port ' + port)
+})
+3. Also remove the dependency on localhost for fetch call in app.js
+fetch('http://localhost:3000/weather?address=' + location) -> Change to -> fetch('/weather?address=' + location) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+NOTE: If using Windows machine use git bash command line prompt for all the terminal commands
